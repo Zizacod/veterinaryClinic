@@ -1,5 +1,7 @@
 package app.domain;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 public class Owner {
@@ -9,16 +11,26 @@ public class Owner {
     private String mail;
     private String phone;
     private boolean active;
+    private List<Pet> pets = new ArrayList<>();
 
     public Owner() {
     }
 
-    public Owner(int id, String name, String mail, String phone, boolean active) {
+    public Owner(int id, String name, String mail, String phone, boolean active, List<Pet> pets) {
         this.id = id;
         this.name = name;
         this.mail = mail;
         this.phone = phone;
         this.active = active;
+        this.pets = pets;
+    }
+
+    public List<Pet> getPets() {
+        return pets;
+    }
+
+    public void setPets(List<Pet> pets) {
+        this.pets = pets;
     }
 
     public int getId() {
@@ -65,12 +77,12 @@ public class Owner {
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;
         Owner owner = (Owner) o;
-        return id == owner.id && active == owner.active && Objects.equals(name, owner.name) && Objects.equals(mail, owner.mail) && Objects.equals(phone, owner.phone);
+        return id == owner.id && active == owner.active && Objects.equals(name, owner.name) && Objects.equals(mail, owner.mail) && Objects.equals(phone, owner.phone) && Objects.equals(pets, owner.pets);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name, mail, phone, active);
+        return Objects.hash(id, name, mail, phone, active, pets);
     }
 
     @Override
@@ -81,6 +93,8 @@ public class Owner {
                 ", mail='" + mail + '\'' +
                 ", phone='" + phone + '\'' +
                 ", active=" + active +
+                ", pets=" + pets +
                 '}';
     }
+
 }

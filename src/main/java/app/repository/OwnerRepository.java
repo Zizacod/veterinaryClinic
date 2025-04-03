@@ -27,8 +27,8 @@ public class OwnerRepository {
         List<Owner> owners = findAll();
 
         if (!owners.isEmpty()) {
-            Owner lastOwners = owners.get(owners.size() - 1);
-            maxId = lastOwners.getId();
+            Owner lastOwner = owners.get(owners.size() - 1);
+            maxId = lastOwner.getId();
         }
     }
 
@@ -84,6 +84,6 @@ public class OwnerRepository {
         mapper.writeValue(database, owners);
     }
 
-    
+
 }
 

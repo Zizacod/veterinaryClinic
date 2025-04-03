@@ -9,16 +9,14 @@ public class Pet {
     private String breed;
     private String color;
     private int age;
-    private Owner owner;
     private boolean active;
 
-    public Pet(int id, String name, String breed, String color, int age, Owner owner, boolean active) {
+    public Pet(int id, String name, String breed, String color, int age, boolean active) {
         this.id = id;
         this.name = name;
         this.breed = breed;
         this.color = color;
         this.age = age;
-        this.owner = owner;
         this.active = active;
     }
 
@@ -62,13 +60,6 @@ public class Pet {
         this.age = age;
     }
 
-    public Owner getOwner() {
-        return owner;
-    }
-
-    public void setOwner(Owner owner) {
-        this.owner = owner;
-    }
 
     public boolean isActive() {
         return active;
@@ -82,12 +73,12 @@ public class Pet {
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;
         Pet pet = (Pet) o;
-        return id == pet.id && age == pet.age && active == pet.active && Objects.equals(name, pet.name) && Objects.equals(breed, pet.breed) && Objects.equals(color, pet.color) && Objects.equals(owner, pet.owner);
+        return id == pet.id && age == pet.age && active == pet.active && Objects.equals(name, pet.name) && Objects.equals(breed, pet.breed) && Objects.equals(color, pet.color);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name, breed, color, age, owner, active);
+        return Objects.hash(id, name, breed, color, age, active);
     }
 
     @Override
@@ -98,7 +89,6 @@ public class Pet {
                 ", breed='" + breed + '\'' +
                 ", color='" + color + '\'' +
                 ", age=" + age +
-                ", owner=" + owner +
                 ", active=" + active +
                 '}';
     }
