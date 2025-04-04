@@ -23,6 +23,11 @@ public class Pet {
         this.active = active;
     }
 
+    public Pet(int id, int age) {
+        this.id = id;
+        this.age = age;
+    }
+
     public Pet(String name, String breed, String color, int age) {
         this.name = name;
         this.breed = breed;

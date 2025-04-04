@@ -85,10 +85,10 @@ import java.util.List;
          if (pet == null){
              throw new PetUpdateException("Питомец не может быть null!");
          }
-         String name = pet.getName();
+         int age = pet.getAge();
 
-         if (name == null || name.trim().isEmpty()) {
-             throw new PetUpdateException("Имя питомца не может быть null!");
+         if (age < 0) {
+             throw new PetUpdateException("Возраст питомца не может быть отрицательным!");
          }
          pet.setActive(true);
          repository.update(pet);
@@ -121,13 +121,7 @@ import java.util.List;
          return getAllActivePets().size();
      }
 
-//     8.Вернуть всех питомцев конкретного владельца по id владельца
 
-     public List<Pet> getPetsByOwnerId(int ownerId) throws IOException, OwnerNotFoundException {
-
-         Owner owner = ownerService.getActiveOwnerById(ownerId);
-         return owner.getPets();
-     }
 
 //     9.Получить историю всех визитов конкретного питомца
 

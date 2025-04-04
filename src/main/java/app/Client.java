@@ -8,6 +8,7 @@ import app.service.OwnerService;
 import app.service.PetService;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.Scanner;
 
 public class Client {
@@ -15,7 +16,7 @@ public class Client {
     private static PetController petController;
     private static Scanner scanner;
 
-    public static void main(String[] args)  {
+    public static void main(String[] args) {
 
         try {
             OwnerService ownerService = new OwnerService();
@@ -25,14 +26,9 @@ public class Client {
             petService.setOwnerService(ownerService);
 
 
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        } catch (OwnerNotFoundException e) {
-            throw new RuntimeException(e);
-        } catch (PetNotFoundException e) {
-            throw new RuntimeException(e);
+        } catch (Exception e) {
+            System.err.println("Ошибка - " + e.getMessage());
         }
-
 
 
         try {
@@ -73,7 +69,7 @@ public class Client {
                 System.out.println("4 - Изменить данные питомца по id");
                 System.out.println("5 - Удалить питомца по id");
                 System.out.println("6 - Восстановить питомца по id");
-                System.out.println("7 - Показать всех питомцев конкретного владельца по id владельца");
+                System.out.println("7 - Показать количество питомцев в клинике");
                 System.out.println("8 - Показать историю всех визитов конкретного питомца");
                 System.out.println("9 - Показать список всех врачей, лечивших данного питомца");
                 System.out.println("10 - Удалить все визиты питомца по id питомца");
@@ -90,21 +86,44 @@ public class Client {
                         System.out.println("Введите цвет питомца:");
                         String color = scanner.nextLine();
                         System.out.println("Введите возраст питомца:");
-                        int age = scanner.nextInt();
-                        petController.save(name, breed, color, age);
+                        int age = Integer.parseInt(scanner.nextLine());
+                        System.out.println(petController.save(name, breed, color, age));
                         break;
+
                     case "2":
+                        petController.getAllActivePets().forEach(System.out::println);
                         break;
+
                     case "3":
+                        System.out.println("Введите id питомца:");
+                        int id = Integer.parseInt(scanner.nextLine());
+                        System.out.println(petController.getActivePetById(id));
                         break;
+
                     case "4":
+                        System.out.println("Введите id питомца:");
+                        id = Integer.parseInt(scanner.nextLine());
+                        System.out.println("Обновленный возраст питомца:");
+                        age = Integer.parseInt(scanner.nextLine());
+                        petController.update(id, age);
                         break;
+
                     case "5":
+                        System.out.println("Введите id питомца:");
+                        id = Integer.parseInt(scanner.nextLine());
+                        petController.deleteById(id);
                         break;
+
                     case "6":
+                        System.out.println("Введите id питомца:");
+                        id = Integer.parseInt(scanner.nextLine());
+                        petController.restoreById(id);
                         break;
+
                     case "7":
+                        System.out.println("Количество всех животных в клинике - " + petController.getActivePetsNumber());
                         break;
+
                     case "8":
                         break;
                     case "9":

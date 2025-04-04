@@ -41,6 +41,19 @@ public class OwnerService {
             throw new OwnerSaveException("Имя владельца не может быть null!");
         }
 
+        String mail = owner.getMail();
+
+        if (mail == null || mail.trim().isEmpty()) {
+            throw new OwnerSaveException("Почта владельца не может быть null!");
+        }
+
+        String phone = owner.getPhone();
+
+        if (phone == null || phone.trim().isEmpty()) {
+            throw new OwnerSaveException("Телефон владельца не может быть null!");
+        }
+
+
         owner.setActive(true);
         return repository.save(owner);
     }
@@ -68,7 +81,7 @@ public class OwnerService {
 
 //4. Изменить одного владельца в базе данных по его id
 
-    public void update(Owner owner) throws OwnerUpdateException, IOException {
+    public void update(Owner owner) throws OwnerUpdateException, OwnerSaveException, IOException {
         if (owner == null){
             throw new OwnerUpdateException("Владелец не может быть null!");
         }
@@ -77,9 +90,23 @@ public class OwnerService {
         if (name == null || name.trim().isEmpty()) {
             throw new OwnerUpdateException("Имя владельца не может быть null!");
         }
+
+        String mail = owner.getMail();
+
+        if (mail == null || mail.trim().isEmpty()) {
+            throw new OwnerSaveException("Почта владельца не может быть null!");
+        }
+
+        String phone = owner.getPhone();
+
+        if (phone == null || phone.trim().isEmpty()) {
+            throw new OwnerSaveException("Телефон владельца не может быть null!");
+        }
+
         owner.setActive(true);
         repository.update(owner);
     }
+
 //5. Удалить владельца из базы данных по его id
 
     public void deleteById(int id) throws IOException, OwnerNotFoundException {

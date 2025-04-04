@@ -61,9 +61,7 @@ public class PetRepository {
     public void update(Pet pet) throws IOException {
         int id = pet.getId();
         int newAge = pet.getAge();
-        String newName = pet.getName();
         boolean active = pet.isActive();
-
 
 
         List<Pet> pets = findAll();
@@ -71,7 +69,6 @@ public class PetRepository {
                 .stream()
                 .filter(x -> x.getId() == id)
                 .forEach(x -> {
-                    x.setName(newName);
                     x.setActive(active);
                     x.setAge(newAge);
 

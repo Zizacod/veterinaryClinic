@@ -10,6 +10,27 @@
   "name" : "Мурка",
   "breed" : "кошка обычная",
   "color" : "коричневый",
-  "age" : 3,
+  "age" : 8,
+  "active" : false
+}, {
+  "id" : 3,
+  "name" : "Шарик",
+  "breed" : "дворняга",
+  "color" : "коричневый",
+  "age" : 5,
+  "active" : true
+}, {
+  "id" : 4,
+  "name" : "Шарик",
+  "breed" : "бульдог",
+  "color" : "черный",
+  "age" : 6,
+  "active" : true
+}, {
+  "id" : 5,
+  "name" : "Рекс",
+  "breed" : "Овчарка",
+  "color" : "коричневый",
+  "age" : 2,
   "active" : true
 } ]

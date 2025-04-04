@@ -25,6 +25,18 @@ public class Owner {
         this.pets = pets;
     }
 
+    public Owner(String name, String phone, String mail) {
+        this.name = name;
+        this.phone = phone;
+        this.mail = mail;
+    }
+
+    public Owner(int id, String mail, String phone) {
+        this.id = id;
+        this.mail = mail;
+        this.phone = phone;
+    }
+
     public List<Pet> getPets() {
         return pets;
     }
