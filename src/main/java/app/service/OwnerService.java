@@ -5,6 +5,7 @@ import app.domain.Pet;
 import app.exception.ownerExceptions.OwnerNotFoundException;
 import app.exception.ownerExceptions.OwnerSaveException;
 import app.exception.ownerExceptions.OwnerUpdateException;
+import app.exception.petExceptions.PetNotFoundException;
 import app.repository.OwnerRepository;
 
 import java.io.IOException;
@@ -15,7 +16,7 @@ public class OwnerService {
     private final OwnerRepository repository;
     private final PetService petService;
 
-    public OwnerService() throws IOException {
+    public OwnerService() throws IOException, OwnerNotFoundException, PetNotFoundException {
         repository = new OwnerRepository();
         petService = new PetService();
     }
@@ -120,7 +121,7 @@ public class OwnerService {
     }
 //10. Добавить новое животное в список животных владельца по их идентификаторам(если оба активны)
 
-    public void addNewPetToOwner(int ownerId; int petId){
+    public void addNewPetToOwner(int ownerId, int petId) throws IOException, OwnerNotFoundException, PetNotFoundException {
         Owner owner = getActiveOwnerById(ownerId);
         Pet pet = petService.getActivePetById(petId);
         owner.getPets().add(pet);
@@ -128,7 +129,7 @@ public class OwnerService {
     }
 
 //11. Удалить животное владельца по их идентификаторам
-    public void removePetFromOwnersList(int ownerId, int petId) throws IOException, OwnerNotFoundException {
+    public void removePetFromOwnersList(int ownerId, int petId) throws IOException, OwnerNotFoundException, PetNotFoundException {
         Owner owner = getActiveOwnerById(ownerId);
         Pet pet = petService.getActivePetById(petId);
         owner.getPets().remove(pet);
