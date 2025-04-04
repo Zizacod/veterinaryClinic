@@ -13,14 +13,19 @@ import java.util.List;
 
 public class OwnerService {
 
+    private PetService petService;
+
+
     private final OwnerRepository repository;
-    private final PetService petService;
+
 
     public OwnerService() throws IOException, OwnerNotFoundException, PetNotFoundException {
         repository = new OwnerRepository();
-        petService = new PetService();
     }
 
+    public void setPetService(PetService petService) {
+        this.petService = petService;
+    }
 
 //
 //1. Сохранить владельца в базе данных

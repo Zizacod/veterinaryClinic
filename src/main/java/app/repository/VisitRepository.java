@@ -57,7 +57,7 @@ public class VisitRepository {
                 .orElse(null);
     }
 
-//    public void update(Vet vet) throws IOException {
+ //  public void update(Vet vet) throws IOException {
 //        int id = vet.getId();
 //        String newName = vet.getName();
 //        boolean active = vet.isActive();

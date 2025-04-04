@@ -11,6 +11,9 @@ public class Pet {
     private int age;
     private boolean active;
 
+    public Pet() {
+    }
+
     public Pet(int id, String name, String breed, String color, int age, boolean active) {
         this.id = id;
         this.name = name;
@@ -18,6 +21,13 @@ public class Pet {
         this.color = color;
         this.age = age;
         this.active = active;
+    }
+
+    public Pet(String name, String breed, String color, int age) {
+        this.name = name;
+        this.breed = breed;
+        this.color = color;
+        this.age = age;
     }
 
     public int getId() {

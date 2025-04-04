@@ -14,19 +14,20 @@ import java.util.List;
 
  public class PetService {
 
+     private  OwnerService ownerService;
+
+
      private final PetRepository repository;
-     private final OwnerService ownerService;
+
+
 
      public PetService() throws IOException, OwnerNotFoundException, PetNotFoundException {
          repository = new PetRepository();
-         ownerService = new OwnerService();
      }
 
-     public PetService(PetRepository repository, OwnerService ownerService) {
-         this.repository = repository;
+     public void setOwnerService(OwnerService ownerService) {
          this.ownerService = ownerService;
      }
-
 
      //1. Сохранить животное в базе данных
      public Pet save(Pet pet) throws PetSaveException, IOException {
@@ -123,6 +124,7 @@ import java.util.List;
 //     8.Вернуть всех питомцев конкретного владельца по id владельца
 
      public List<Pet> getPetsByOwnerId(int ownerId) throws IOException, OwnerNotFoundException {
+
          Owner owner = ownerService.getActiveOwnerById(ownerId);
          return owner.getPets();
      }
