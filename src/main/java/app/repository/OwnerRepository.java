@@ -1,6 +1,7 @@
 package app.repository;
 
 import app.domain.Owner;
+import app.domain.Pet;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.databind.exc.MismatchedInputException;
@@ -63,6 +64,7 @@ public class OwnerRepository {
         boolean active = owner.isActive();
         String phone = owner.getPhone();
         String mail = owner.getMail();
+        List<Pet> pets = owner.getPets();
 
         List<Owner> owners = findAll();
         owners
@@ -73,6 +75,9 @@ public class OwnerRepository {
                     x.setActive(active);
                     x.setPhone(phone);
                     x.setMail(mail);
+                    if (!pets.isEmpty()){
+                        x.setPets(pets);
+                    }
 
                 });
         mapper.writeValue(database, owners);

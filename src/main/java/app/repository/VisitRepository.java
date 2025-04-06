@@ -1,5 +1,8 @@
 package app.repository;
 
+import app.domain.Owner;
+import app.domain.Pet;
+import app.domain.Vet;
 import app.domain.Visit;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
@@ -7,6 +10,7 @@ import com.fasterxml.jackson.databind.exc.MismatchedInputException;
 
 import java.io.File;
 import java.io.IOException;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -57,23 +61,27 @@ public class VisitRepository {
                 .orElse(null);
     }
 
- //  public void update(Vet vet) throws IOException {
-//        int id = vet.getId();
-//        String newName = vet.getName();
-//        boolean active = vet.isActive();
-//
-//
-//        List<Vet> vets = findAll();
-//        vets
-//                .stream()
-//                .filter(x -> x.getId() == id)
-//                .forEach(x -> {
-//                    x.setName(newName);
-//                    x.setActive(active);
-//
-//                });
-//        mapper.writeValue(database, owners);
-//    }
+    public void update(Visit visit) throws IOException {
+        int id = visit.getId();
+        Owner newOwner = visit.getOwner();
+        Pet newPet = visit.getPet();
+        Vet newVet = visit.getVet();
+        LocalDateTime newLocalDateTime = visit.getDate();
+        String newDescription = visit.getDescription();
+        boolean active = visit.isActive();
+
+
+        List<Visit> visits = findAll();
+        visits
+                .stream()
+                .filter(x -> x.getId() == id)
+                .forEach(x -> {
+                    x.setDescription(newDescription);
+                    x.setActive(active);
+
+                });
+        mapper.writeValue(database, visits);
+    }
 
     public void deleteById(int id) throws IOException {
         List<Visit> visits = findAll();

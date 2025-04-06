@@ -1,5 +1,6 @@
 package app.repository;
 
+import app.domain.Pet;
 import app.domain.Vet;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
@@ -57,23 +58,26 @@ public class VetRepository {
                 .orElse(null);
     }
 
-//    public void update(Vet vet) throws IOException {
-//        int id = vet.getId();
-//        String newName = vet.getName();
-//        boolean active = vet.isActive();
-//
-//
-//        List<Vet> vets = findAll();
-//        vets
-//                .stream()
-//                .filter(x -> x.getId() == id)
-//                .forEach(x -> {
-//                    x.setName(newName);
-//                    x.setActive(active);
-//
-//                });
-//        mapper.writeValue(database, owners);
-//    }
+    public void update(Vet vet) throws IOException {
+        int id = vet.getId();
+        String newRole = vet.getRole();
+        boolean active = vet.isActive();
+        List<Pet> pets = vet.getPets();
+
+        List<Vet> vets = findAll();
+        vets
+                .stream()
+                .filter(x -> x.getId() == id)
+                .forEach(x -> {
+                    x.setRole(newRole);
+                    x.setActive(active);
+                    if (!pets.isEmpty()){
+                        x.setPets(pets);
+                    }
+
+                });
+        mapper.writeValue(database, vet);
+    }
 
     public void deleteById(int id) throws IOException {
         List<Vet> vets = findAll();

@@ -16,6 +16,9 @@ public class Visit {
     //private boolean sick;
 
 
+    public Visit() {
+    }
+
     public Visit(int id, Owner owner, Pet pet, Vet vet, LocalDateTime date, String description, boolean active) {
         this.id = id;
         this.owner = owner;
