@@ -21,11 +21,9 @@ public class OwnerService {
 
     public OwnerService() throws IOException, OwnerNotFoundException, PetNotFoundException {
         repository = new OwnerRepository();
+        petService = new PetService();
     }
 
-    public void setPetService(PetService petService) {
-        this.petService = petService;
-    }
 
 //
 //1. Сохранить владельца в базе данных

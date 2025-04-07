@@ -14,8 +14,8 @@ import java.util.List;
 
 public class PetService {
 
-    private OwnerService ownerService;
-    private VetService vetService;
+
+
 
     private final PetRepository repository;
 
@@ -24,13 +24,6 @@ public class PetService {
         repository = new PetRepository();
     }
 
-    public void setOwnerService(OwnerService ownerService) {
-        this.ownerService = ownerService;
-    }
-
-    public void setVetService(VetService vetService) {
-        this.vetService = vetService;
-    }
 
     //1. Сохранить животное в базе данных
     public Pet save(Pet pet) throws PetSaveException, IOException {

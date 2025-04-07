@@ -1,5 +1,6 @@
 package app.domain;
 
+
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Objects;
@@ -27,6 +28,11 @@ public class Visit {
         this.date = date;
         this.description = description;
         this.active = active;
+    }
+
+    public Visit(int id, String description) {
+        this.id = id;
+        this.description = description;
     }
 
     public int getId() {

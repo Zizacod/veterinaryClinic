@@ -17,6 +17,7 @@ public class OwnerController {
 
     public OwnerController() throws IOException, OwnerNotFoundException, PetNotFoundException {
         service = new OwnerService();
+
     }
 
     //1. Сохранить владельца в базе данных

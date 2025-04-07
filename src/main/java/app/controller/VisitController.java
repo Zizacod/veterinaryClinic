@@ -4,6 +4,9 @@ import app.domain.Owner;
 import app.domain.Pet;
 import app.domain.Vet;
 import app.domain.Visit;
+import app.exception.ownerExceptions.OwnerNotFoundException;
+import app.exception.petExceptions.PetNotFoundException;
+import app.exception.visitException.VisitNotFoundException;
 import app.exception.visitException.VisitSaveException;
 import app.service.PetService;
 import app.service.VisitService;
@@ -15,15 +18,16 @@ import java.util.List;
 public class VisitController {
 
     private VisitService service;
-    private PetService petService;
 
-    public VisitController() throws IOException {
+
+    public VisitController() throws IOException, OwnerNotFoundException, PetNotFoundException {
         service = new VisitService();
     }
 
     /// /    1.Добавление визита (с указанием питомца, ветеринара, даты и описания симптомов / диагноза, а также владельца)
 
     public Visit save(Owner owner, Pet pet, Vet vet, LocalDateTime date, String description) throws IOException, VisitSaveException {
+
         Visit visit = new Visit();
         visit.setOwner(owner);
         visit.setPet(pet);
@@ -34,53 +38,38 @@ public class VisitController {
         return service.save(visit);
     }
 
-    //    2.Вернуть список всех визитов в базе (только активные).
-//
-//    public List<Visit> getTotalVisitsById(List<Visit> visits) {
-//        return service.getTotalVisitsById(visits);
-//    }
-//
-//    3.Вернуть визит по id (если активен).
-//
-//    public List<Visit> getAllActiveVisits() {
-//        return service.getAllActiveVisits();
-//    }
+    //    2.Вернуть визит по id (если активен).
+    public Visit getActiveVisitById(int id) throws VisitNotFoundException, IOException {
+        return service.getActiveVisitById(id);
+    }
+
+    //    3.Вернуть список всех визитов в базе (только активные).
+
+    public List<Visit> getAllActiveVisits() throws IOException {
+        return service.getAllActiveVisits();
+    }
 //
 
 //
-////    4.По id питомца вернуть его медицинскую историю (список визитов, отсортированных по дате).
+
+    /// /    4.По id питомца вернуть его медицинскую историю (список визитов, отсортированных по дате).
 //
-//    public List<Visit> getPetVisitsByPetId(int petId) {
-//        List<Visit> visits = repository.findAllByPetIdVisitByDate(petId);
-//
-//        if (visits.isEmpty()) {
-//            throw new VisitNotFoundException(petId);
-//        }
-//
-//        return visits;
-//    }
+    public List<Visit> getHistoryByPetId(int petId) throws IOException {
+        return service.getHistoryByPetId(petId);
+    }
 //
 ////    5.По id ветеринара отобразить все визиты, которые он проводил.
 //
-//    public List<Visit> getActiveVisitsByVetId(int vetId) {
-//        List<Visit> visits = repository.findByVetId(vetId);
-//
-//        if (visits.isEmpty()) {
-//            throw new VisitNotFoundException(vetId);
-//        }
-//
-//        return visits.stream()
-//                .filter(Visit::isActive)
-//                .collect(Collectors.toList());
-//    }
+    public List<Visit> getVisitsByVetId(int vetId) throws IOException {
+       return service.getVisitsByVetId(vetId);
+    }
 //
 ////    6.удалить визит по id визита
 //
-//    public void deleteById(int id) {
-//        Visit visit = getActiveVisitById(id);
-//        visit.setActive(false);
-//        repository.update(visit);
-//    }
+    public void deleteById(int id) throws VisitNotFoundException, IOException {
+        service.deleteById(id);
+    }
+
 //
 ////   Удалить визит из базы данных по его имени
 //

@@ -7,6 +7,7 @@ import app.domain.Visit;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.databind.exc.MismatchedInputException;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 
 import java.io.File;
 import java.io.IOException;
@@ -28,6 +29,8 @@ public class VisitRepository {
         mapper = new ObjectMapper();
         mapper.enable(SerializationFeature.INDENT_OUTPUT);
 
+        mapper.registerModule(new JavaTimeModule());
+        mapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
         List<Visit> visits = findAll();
 
         if (!visits.isEmpty()) {
@@ -63,10 +66,6 @@ public class VisitRepository {
 
     public void update(Visit visit) throws IOException {
         int id = visit.getId();
-        Owner newOwner = visit.getOwner();
-        Pet newPet = visit.getPet();
-        Vet newVet = visit.getVet();
-        LocalDateTime newLocalDateTime = visit.getDate();
         String newDescription = visit.getDescription();
         boolean active = visit.isActive();
 

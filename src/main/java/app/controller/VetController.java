@@ -1,10 +1,11 @@
 package app.controller;
 
-import app.domain.Owner;
 import app.domain.Vet;
-import app.exception.ownerExceptions.OwnerSaveException;
+import app.exception.ownerExceptions.OwnerNotFoundException;
+import app.exception.petExceptions.PetNotFoundException;
+import app.exception.vetExceptions.VetNotFoundException;
 import app.exception.vetExceptions.VetSaveException;
-import app.service.PetService;
+import app.exception.vetExceptions.VetUpdateException;
 import app.service.VetService;
 
 import java.io.IOException;
@@ -14,7 +15,7 @@ public class VetController {
 
     private final VetService service;
 
-    public VetController() throws IOException {
+    public VetController() throws IOException, OwnerNotFoundException, PetNotFoundException {
         service = new VetService();
     }
 
@@ -25,67 +26,75 @@ public class VetController {
         return service.save(vet);
     }
 //
-////    2.вернуть всех активных ветеринаров
+
+    /// /    2.вернуть всех активных ветеринаров
+
+    public List<Vet> getAllActiveVets() throws IOException {
+        return service.getAllActiveVets();
+    }
 //
-//    public List<Vet> getAllActiveVets(){
-//        return service.getAllActiveVets();
-//    }
+
+    /// /    3.вернуть ветеринара по id (если он активен)
+
+    public Vet getActiveVetById(int id) throws VetNotFoundException, IOException {
+        return service.getActiveVetById(id);
+    }
+
 //
-////    3.вернуть ветеринара по id (если он активен)
+
+    /// /    4.Изменить данные ветеринара в базе данных по его id
 //
-//    public Vet getActiveVetById(int id){
-//        return service.getActiveVetById(id);
-//    }
+    public void update(int id, String name, String role) throws IOException, VetUpdateException {
+
+        Vet vet = new Vet(id, name, role);
+        service.update(vet);
+    }
 //
-////    4.Изменить данные ветеринара в базе данных по его id
+
+    /// /    5.Удалить ветеринара из базы данных по его id
 //
-//    public void update(int id, String name, String role) {
+    public void deleteById(int id) throws VetNotFoundException, IOException {
+        service.deleteById(id);
+    }
+
 //
-//        Vet vet = new Owner(id, name, role);
-//        service.update(vet);
-//    }
+
+    /// /    6.Удалить ветеринара из базы данных по его имени
 //
-////    5.Удалить ветеринара из базы данных по его id
+    public void deleteByName(String name) throws VetNotFoundException, IOException {
+        service.deleteByName(name);
+    }
 //
-//    public void deleteById(int id) {
-//        service.deleteById(id);
-//    }
+
+    /// /    7.Восстановить удаленного ветеринара по его id
 //
-////    6.Удалить ветеринара из базы данных по его имени
+    public void restoreById(int id) throws VetNotFoundException, IOException {
+        service.restoreById(id);
+    }
+
 //
-//    public void deleteByName(String name){
-//        service.deleteByName(name);
-//    }
+
+    /// /    8.Вернуть общее количество ветеринаров в базе данных (только активных)
 //
-////    7.Восстановить удаленного ветеринара по его id
+    public int getActiveVetsNumber() throws IOException {
+        return service.getActiveVetsNumber();
+    }
 //
-//    public void restoreById(int id)  {
-//        service.restoreById(id);
-//    }
+
+    /// /    9.Показать всех ветеринаров раньше работающих в клинике
 //
-////    8.Вернуть общее количество ветеринаров в базе данных (только активных)
+    public List<Vet> getAllInactiveVets() throws IOException {
+        return service.getAllInactiveVets();
+    }
+
+
 //
-//    public int getActiveVetsNumber(){
-//        return service.getActiveVetsNumber();
-//    }
+////    10.Найти веринаров по конкретной должности (передаем String role)
 //
-////    9.Вернуть общее количество ветеринаров в базе данных (активных и не активных)
-//
-//    public int getTotalVetsById(int id){
-//        return service.getTotalVetsById(id);
-//    }
-//
-////    10.Вернуть всех питомцев, которых лечил конкретный ветеринар по id ветеринара
-//
-//    public int getTotalPetsByVetId(int id) {
-//        return service.getTotalPetsByVetId(id);
-//    }
-//
-////    11.Найти веринаров по конкретной должности (передаем String role)
-//
-//    public int getVetsByRole(String role){
-//        return service.getVetsByRole(role);
-//    }
+    public List<Vet> getVetsByRole(String role) throws IOException {
+        return service.getAllVetByRole(role);
+    }
+
 //
 ////    12.вернуть все визиты, которые проводил конкретный ветеринар
 //

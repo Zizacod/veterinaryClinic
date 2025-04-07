@@ -18,15 +18,12 @@ import java.util.List;
 public class VetService {
 
     private final VetRepository repository;
-    private PetService petService;
 
-    public VetService() throws IOException {
+
+    public VetService() throws IOException, OwnerNotFoundException, PetNotFoundException {
         repository = new VetRepository();
     }
 
-    public void setPetService(PetService petService) {
-        this.petService = petService;
-    }
 
     //    1. сохранить нового ветеринара в базе
     public Vet save(Vet vet) throws IOException, VetSaveException {
@@ -132,29 +129,17 @@ public class VetService {
                 .toList();
     }
 
-    //10 Добавить животное, которое лечил ветеринар в список(по id ветеринара и по id питомца)
 
-    public void addNewPetToVet(int vetId, int petId) throws VetNotFoundException, IOException, PetNotFoundException {
-        Vet vet = getActiveVetById(vetId);
-        Pet pet = petService.getActivePetById(petId);
-        vet.getPets().add(pet);
-        repository.update(vet);
-    }
+//10. Найти ветеринаров по конкретной должности (передаем String role)
 
-    //11. Вернуть всех питомцев, которых лечил конкретный ветеринар по id ветеринара
-    public List<Pet> getTotalPetsByVetId(int id) throws VetNotFoundException, IOException {
-        return getActiveVetById(id).getPets();
-    }
-
-//12. Найти ветеринаров по конкретной должности (передаем String role)
-
-    List<Vet> getAllVetByRole(String role) throws IOException {
+    public List<Vet> getAllVetByRole(String role) throws IOException {
         return repository.findAll()
                 .stream()
                 .filter(x -> x.getRole().equals(role))
                 .toList();
     }
-//13. вернуть все визиты, которые проводил конкретный ветеринар
+//11. вернуть все визиты, которые проводил конкретный ветеринар
 
-//14. проверить активность ветеринара по его id, может ли он принимать или уволен
+//12. проверить активность ветеринара по его id, может ли он принимать или уволен
+
 }

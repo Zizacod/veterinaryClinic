@@ -62,7 +62,6 @@ public class VetRepository {
         int id = vet.getId();
         String newRole = vet.getRole();
         boolean active = vet.isActive();
-        List<Pet> pets = vet.getPets();
 
         List<Vet> vets = findAll();
         vets
@@ -71,9 +70,6 @@ public class VetRepository {
                 .forEach(x -> {
                     x.setRole(newRole);
                     x.setActive(active);
-                    if (!pets.isEmpty()){
-                        x.setPets(pets);
-                    }
 
                 });
         mapper.writeValue(database, vet);

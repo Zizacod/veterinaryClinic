@@ -3,13 +3,21 @@ package app;
 import app.controller.OwnerController;
 import app.controller.PetController;
 import app.controller.VetController;
+import app.controller.VisitController;
+import app.domain.Owner;
+import app.domain.Pet;
+import app.domain.Vet;
 import app.exception.ownerExceptions.OwnerSaveException;
 import app.exception.vetExceptions.VetSaveException;
 import app.service.OwnerService;
 import app.service.PetService;
 import app.service.VetService;
+import app.service.VisitService;
 
 import java.io.IOException;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.Locale;
 import java.util.Scanner;
 
 public class Client {
@@ -17,24 +25,10 @@ public class Client {
     private static OwnerController ownerController;
     private static PetController petController;
     private static VetController vetController;
+    private static VisitController visitController;
     private static Scanner scanner;
 
     public static void main(String[] args) {
-
-        try {
-            OwnerService ownerService = new OwnerService();
-            PetService petService = new PetService();
-            VetService vetService = new VetService();
-
-            ownerService.setPetService(petService);
-            petService.setOwnerService(ownerService);
-
-            petService.setVetService(vetService);
-            vetService.setPetService(petService);
-
-        } catch (Exception e) {
-            System.err.println("Ошибка - " + e.getMessage());
-        }
 
 
         try {
@@ -42,6 +36,8 @@ public class Client {
             petController = new PetController();
             ownerController = new OwnerController();
             vetController = new VetController();
+            visitController = new VisitController();
+
             scanner = new Scanner(System.in);
         } catch (Exception e) {
             System.err.println(e.getMessage());
@@ -52,6 +48,7 @@ public class Client {
             System.out.println("1 - операции с питомцами");
             System.out.println("2 - операции с владельцами");
             System.out.println("3 - операции с ветеринарами");
+            System.out.println("4 - операции с визитами");
             System.out.println("0 - выход");
 
             String input = scanner.nextLine();
@@ -64,6 +61,9 @@ public class Client {
                     break;
                 case "3":
                     vetOperations();
+                    break;
+                case "4":
+                    visitOperations();
                     break;
                 case "0":
                     return;
@@ -244,17 +244,17 @@ public class Client {
                     case "10":
                         System.out.println("Введите id владельца:");
                         id = Integer.parseInt(scanner.nextLine());
-                        System.out.println("Добавленный питомец:");
-                        id = Integer.parseInt(scanner.nextLine());
-                        ownerController.addNewPetToOwner(id, id);
+                        System.out.println("Добавьте питомец:");
+                        int petId = Integer.parseInt(scanner.nextLine());
+                        ownerController.addNewPetToOwner(id, petId);
                         break;
 
                     case "11":
                         System.out.println("Введите id владельца:");
                         id = Integer.parseInt(scanner.nextLine());
                         System.out.println("Введите id питомца:");
-                        id = Integer.parseInt(scanner.nextLine());
-                        ownerController.removePetFromOwnersList(id, id);
+                        petId = Integer.parseInt(scanner.nextLine());
+                        ownerController.removePetFromOwnersList(id, petId);
                         break;
 
                     case "12":
@@ -290,12 +290,9 @@ public class Client {
                 System.out.println("7 - Восстановить ветеринара по id");
                 System.out.println("8 - Показать количество ветеринаров работающих в клинике");
                 System.out.println("9 - Показать всех ветеринаров раньше работающих в клинике");
-                System.out.println("10 - Добавить питомца в список ветеринара по id ветеринара и питомца");
-                System.out.println("11 - Показать всех питомцев, которых лечил ветеринар по id ветеринара");
-                System.out.println("12 - Показать ветеринаров по конкретной должности");
-                System.out.println("13 - Показать все визиты, которые проводил ветеринар");
-                System.out.println("14 - Показать работает ли ветеринар в клинике по его id");
-                System.out.println("15 - Показать работает ли ветеринар в клинике по его имени");
+                System.out.println("10 - Показать ветеринаров по конкретной должности");
+//                System.out.println("12 - Показать работает ли ветеринар в клинике по его id");
+//                System.out.println("13 - Показать работает ли ветеринар в клинике по его имени");
                 System.out.println("0 - Выход");
 
                 String input = scanner.nextLine();
@@ -310,14 +307,132 @@ public class Client {
                         vetController.save(name, role);
                         break;
                     case "2":
+                        System.out.println("Все ветеринары: " + vetController.getAllActiveVets());
                         break;
                     case "3":
+                        System.out.println("Введите id ветеринара:");
+                        int id = Integer.parseInt(scanner.nextLine());
+                        vetController.getActiveVetById(id);
                         break;
                     case "4":
+                        System.out.println("Введите id ветеринара:");
+                        id = Integer.parseInt(scanner.nextLine());
+                        System.out.println("Введите новое имя ветеринара");
+                        name = scanner.nextLine();
+                        System.out.println("Введите новую должность ветеринара");
+                        role = scanner.nextLine();
+                        vetController.update(id, name, role);
                         break;
                     case "5":
+                        System.out.println("Введите id ветеринара:");
+                        id = Integer.parseInt(scanner.nextLine());
+                        vetController.deleteById(id);
                         break;
                     case "6":
+                        System.out.println("Введите имя ветеринара:");
+                        name = scanner.nextLine();
+                        vetController.deleteByName(name);
+
+                        break;
+                    case "7":
+                        System.out.println("Введите id ветеринара:");
+                        id = Integer.parseInt(scanner.nextLine());
+                        vetController.restoreById(id);
+                        break;
+
+                    case "8":
+                        System.out.println("Общее количество всех ветеринаров - " + vetController.getActiveVetsNumber());
+                        break;
+                    case "9":
+                        System.out.println("Все ветеринары раньше работающие в клинике: " + vetController.getAllInactiveVets());
+                        break;
+                    case "10":
+                        System.out.println("Введите должность ветеринара:");
+                        role = scanner.nextLine();
+                        System.out.println(vetController.getVetsByRole(role));
+                        break;
+//                    case "11":
+//                        break;
+//                    case "12":
+//                        break;
+//                    case "13":
+//                        break;
+//                    case "14":
+//                        break;
+                    case "0":
+                        return;
+                    default:
+                        System.out.println("Некорректный ввод!");
+                        break;
+                }
+            } catch (Exception e) {
+                System.err.println(e.getMessage());
+            }
+        }
+    }
+
+    private static void visitOperations() {
+
+        while (true) {
+            try {
+                System.out.println("Выберите желаемую операцию с визитами:");
+                System.out.println("1 - Добавление визита");
+                System.out.println("2 - Показать список всех визитов в базе");
+                System.out.println("3 - Показать визит по id");
+                System.out.println("4 - Показать медицинскую историю питомца по его id");
+                System.out.println("5 - Показать все визиты по id ветеринара");
+                System.out.println("6 - Удалить визит по id");
+                System.out.println("7 - Восстановить визит по id");
+                System.out.println("8 - Удалить все визиты питомца по его id");
+//                System.out.println("9 - Добавление визита");
+//                System.out.println("10 - Добавление визита");
+                System.out.println("0 - Выход");
+
+                String input = scanner.nextLine();
+
+                switch (input) {
+
+                    case "1":
+                        System.out.println("Введите id владельца");
+                        int id = Integer.parseInt(scanner.nextLine());
+                        Owner owner = ownerController.getActiveOwnerById(id);
+
+                        System.out.println("Введите id питомца");
+                        id = Integer.parseInt(scanner.nextLine());
+                        Pet pet = petController.getActivePetById(id);
+
+                        System.out.println("Введите id ветеринара");
+                        id = Integer.parseInt(scanner.nextLine());
+                        Vet vet = vetController.getActiveVetById(id);
+
+
+                        System.out.println("Введите описания симптомов питомца");
+                        String description = scanner.nextLine();
+
+                        visitController.save(owner, pet, vet, LocalDateTime.now(), description);
+                        break;
+                    case "2":
+                        System.out.println("Введите id визита");
+                        id = Integer.parseInt(scanner.nextLine());
+                        visitController.getActiveVisitById(id);
+                        break;
+                    case "3":
+                        System.out.println("Все активные визиты в базе - " + visitController.getAllActiveVisits());
+                        break;
+                    case "4":
+                        System.out.println("Введите id питомца");
+                        int petId = Integer.parseInt(scanner.nextLine());
+                        System.out.println("Отсортированные визиты по дате - " + visitController.getHistoryByPetId(petId));
+                        break;
+                    case "5":
+                        System.out.println("Введите id ветеринара");
+                        int vetId = Integer.parseInt(scanner.nextLine());
+                        System.out.println("Все визиты ветеринара - " + visitController.getVisitsByVetId(vetId));
+                        break;
+                    case "6":
+                        System.out.println("Введите id визита");
+                        id = Integer.parseInt(scanner.nextLine());
+                        visitController.deleteById(id);
                         break;
                     case "7":
                         break;
@@ -344,6 +459,7 @@ public class Client {
             } catch (Exception e) {
                 System.err.println(e.getMessage());
             }
+
         }
     }
 }

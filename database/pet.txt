@@ -33,4 +33,11 @@
   "color" : "коричневый",
   "age" : 2,
   "active" : true
+}, {
+  "id" : 6,
+  "name" : "Кеша",
+  "breed" : "попугай",
+  "color" : "желтый",
+  "age" : 3,
+  "active" : true
 } ]

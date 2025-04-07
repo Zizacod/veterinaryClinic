@@ -10,7 +10,10 @@ public class Vet {
     private String name;
     private String role;
     private boolean active;
-    private List<Pet> pets = new ArrayList<>();
+
+
+    public Vet() {
+    }
 
     public Vet(int id, String name, String role, boolean active) {
         this.id = id;
@@ -24,12 +27,11 @@ public class Vet {
         this.role = role;
     }
 
-    public Vet(int id, String name, String role, boolean active, List<Pet> pets) {
+    public Vet(int id, String name, String role) {
         this.id = id;
         this.name = name;
         this.role = role;
-        this.active = active;
-        this.pets = pets;
+
     }
 
     public int getId() {
@@ -64,24 +66,17 @@ public class Vet {
         this.active = active;
     }
 
-    public List<Pet> getPets() {
-        return pets;
-    }
-
-    public void setPets(List<Pet> pets) {
-        this.pets = pets;
-    }
 
     @Override
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;
         Vet vet = (Vet) o;
-        return id == vet.id && active == vet.active && Objects.equals(name, vet.name) && Objects.equals(role, vet.role) && Objects.equals(pets, vet.pets);
+        return id == vet.id && active == vet.active && Objects.equals(name, vet.name) && Objects.equals(role, vet.role);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name, role, active, pets);
+        return Objects.hash(id, name, role, active);
     }
 
     @Override
@@ -91,7 +86,6 @@ public class Vet {
                 ", name='" + name + '\'' +
                 ", role='" + role + '\'' +
                 ", active=" + active +
-                ", pets=" + pets +
                 '}';
     }
 }

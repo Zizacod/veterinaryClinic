@@ -1,0 +1,43 @@
+[ {
+  "id" : 1,
+  "name" : "Генадий",
+  "mail" : "546565466",
+  "phone" : "gena@gmail.com",
+  "active" : true,
+  "pets" : [ {
+    "id" : 1,
+    "name" : "Барбос",
+    "breed" : "Дворняга",
+    "color" : "Черный",
+    "age" : 3,
+    "active" : true
+  } ]
+}, {
+  "id" : 2,
+  "name" : "Виктор",
+  "mail" : "56546465",
+  "phone" : "viktor@gmail.com",
+  "active" : true,
+  "pets" : [ ]
+}, {
+  "id" : 3,
+  "name" : "Павел",
+  "mail" : "65446546546",
+  "phone" : "pavel@.com",
+  "active" : true,
+  "pets" : [ ]
+}, {
+  "id" : 4,
+  "name" : "Миша",
+  "mail" : "468886789849",
+  "phone" : "mischa@com",
+  "active" : true,
+  "pets" : [ {
+    "id" : 6,
+    "name" : "Кеша",
+    "breed" : "попугай",
+    "color" : "желтый",
+    "age" : 3,
+    "active" : true
+  } ]
+} ]
